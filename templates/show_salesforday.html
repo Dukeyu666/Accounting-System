@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+
+            
+      
+        </style>
+    </head>
+    <body>
+      <div class="container mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+
+      <div class="container-sm fs-5 text-secondary ">
+        <div class="row justify-content-center">
+            <div class="col-sm-3">
+              <form action="/show_salesforday" id='form1' method="POST">
+                <div>
+                  <label for="">請選擇日期</label>
+                  <input class="form-control text-center fs-6 mt-3 mx-auto" id='date1' style="letter-spacing:5px" type="date" name="date"  required>
+                </div>
+                <div class="col text-center mt-3">
+                  <!--<button type="button" form="form1" formaction="/export" class="btn btn-outline-primary  mx-auto">匯出</button>-->
+                  <button type="submit" class="btn btn-outline-primary  mx-auto">查詢</button>
+                  <button type="button" id="change_btn2" class="btn btn-sm btn-outline-primary fs-5" onclick="reload()" >重置</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center mt-4">
+        <div class="col-sm-3 text-center fs-4">
+            <label id="label_date" class="text-secondary fst-italic" ></label>
+        </div>
+      </div>
+
+
+      <div class="container-sm text-secondary  mt-3">
+        <div class="row justify-content-center">
+          {% if results %}
+          {% for result in results %}
+            <div class="col-3 bg-light ">
+              <label class="fs-5 mt-2">設計師 : {{ result[0][1] }}</label>
+              <div class="text-center fs-6 mt-2">
+                <label class="">總業績 : $ {{total[loop.index-1]}}</label>
+              </div>
+              <table class="table table-success table-hover table-striped mt-2 mx-auto">
+                <tr class="table-active">
+                  <th scope="col" class="col-2 fs-6">單號</th>
+                  <th scope="col" class="col-2 fs-6 ">業績</th>
+                </tr>
+                {% for orderNo,designer,sales in result %}
+                <tr>
+                  <td class="fs-6" ># {{orderNo}}</td>
+                  <td class="fs-6" >{{sales}}</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          {% endfor %}
+          {% endif %}
+          {% if product_result %}
+          <div class="col-3 .bg-info ">
+            <label class="text-danger fs-5 mt-2">[ 店販商品 ]</label>
+            <div class="text-center mt-2">
+              <label class="">個人銷售</label>
+            </div>
+            <table class="table table-secondary table-hover table-striped mt-2 mx-auto">
+              <tr class="table-active">
+                <th scope="col" class="col-2 fs-6">販售人員</th>
+                <th scope="col" class="col-2 fs-6 ">總金額</th>
+              </tr>
+              {% for name,num in product_result %}
+              <tr>
+                <td class="fs-6" ># {{name}}</td>
+                <td class="fs-6" >{{num}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% endif %}
+          {% if payment_result %}
+          <div class="col-4 .bg-success ">
+            <label class="text-success fs-5 mt-2"></label>
+            <div class="text-center mt-2">
+              <label class="text-success fs-5 mt-2">[ 結帳總覽 ]</label>
+            </div>
+            <table class="table table-warnning table-hover table-striped mt-2 mx-auto">
+              <tr class="table-active">
+                <th scope="col" class="col-2 fs-6">付款方式</th>
+                <th scope="col" class="col-2 fs-6 ">總金額</th>
+              </tr>
+              {% for num,payment in payment_result %}
+              <tr>
+                <td class="fs-6" >#{{payment |upper() }}</td>
+                <td class="fs-6" >{{num}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% endif %}
+
+          </div>
+        </div>
+      </div>
+      
+
+
+
+      
+
+
+
+
+
+
+
+      <script>
+        {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+        {% endwith %}
+        document.getElementById('label_date').innerText="{{ date }}";
+
+        function reload(){
+            location.href='/show_salesforday';
+        };
+        function date2_chk(){
+          var date1=document.getElementById('date1').value;
+          document.getElementById('date2').setAttribute('min',date1);
+        };
+
+
+
+      </script>
+    </body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src=" {{ url_for('static',filename='js/bootstrap.bundle.min.js') }} " ></script>
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">
+        <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+        <meta charset="uft-8">
+        <title>Bellevie Hair Salon system</title>
+        <style>
+             body{  
+                height: 100%;
+                height: 100%;
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+            }
+             a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+             .head{
+
+                color: rgb(236, 82, 113);
+                font-style: italic;
+                font-weight: bolder;
+                font-size: 60px ;
+                font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                text-align:center;
+                height: 300PX;
+                width: 100%;
+                line-height:300px;
+
+                /*position:relative; 固定位置 */
+                
+                /*border: 1px solid black;*/
+             }
+
+            .container_form1{
+                border: 1px solid red;
+                width:100%;
+                height: 100%;
+                padding:30px;
+            }  
+            .div_Designer{
+                width: 50%;
+                height: 500px;
+                border: 1px solid red;
+                float: left;
+            }
+            .div_price{
+                width: 50%;
+                height: 550px;
+                border: 1px solid red;
+                float: left;
+                padding-top: 15px;
+                padding-left: 15px;
+            }
+            .div_price input{
+                font-size: 40px;
+                width: 100px;
+                height: 60px;
+                margin-top: 20px;
+                
+            }
+            .div_price label{
+                
+                font-size: 40px;
+                
+            }
+            
+            
+
+
+
+            .clearfix::after{
+               content:"";
+               display: block;
+               clear: both;
+           }
+
+
+
+
+
+        </style>
+    </head>
+    <body>
+        <div class="head">
+           <a href="/" class='h1_link' >Bellevie Hair Salon</a>
+        </div>
+   
+
+        <div class="container_form1">
+            <form id="form1" action="/result" method="post"  class="clearfix">
+                
+            <div class="div_Designer">
+                <label for="Designer" style="font-weight: bold;"> 設計師 :</label>
+                    <!--  optional Designer option
+                    <label ><input name="Designer" type="radio" value="Sherry"> Sherry </label>&emsp;&emsp;
+                    <label ><input name="Designer" type="radio" value="Petty"> Petty </label>&emsp;&emsp;
+                    <label ><input name="Designer" type="radio" value="Joe"> Joe </label>&emsp;&emsp;
+                    -->
+                <select id="Designer" name="Designer" required>
+                    <option value="Null">請選擇</option>
+                    <option value="Sherry">Sherry</option>
+                    <option value="Patty">Patty</option>
+                    <option value="Joe">Joe</option>
+                 </select>
+            </div>
+            <div class="div_price">
+                <div class="obj_shampoo" >
+                    <label for="shampoo"> 洗髮金額 S :&emsp;</label>
+                    <input type="text" id="shampoo" name="shampoo" list="price_shampoo" placeholder="$ 0" oninput="total()">
+                            <datalist id="price_shampoo">
+                                <option value="100">
+                                <option value="200">
+                            </datalist>
+                </div>
+                <div class="obj_haircut">
+                    <label for="haircut"> 剪髮金額 C :&emsp;</label>
+                    <input type="text" id="haircut" name="haircut" list="price_haircut" placeholder="$ 0" oninput="total()" >
+                        <datalist id="price_haircut">
+                            <option value="100">
+                            <option value="200">
+                        </datalist>
+                </div>
+                <div class="obj_perm">
+                    <label for="perm"> 燙髮金額 P :&emsp;</label>
+                    <input type="text" id="perm" name="perm" list="price_perm" placeholder="$ 0" oninput="total()">
+                        <datalist id="price_perm">
+                            <option value="100">
+                            <option value="200">
+                        </datalist>
+                </div>
+                <div class="obj_dye">
+                    <label for="dye"> 染髮金額 R :&emsp;</label>
+                    <input type="text" id="dye" name="dye" list="price_dye" placeholder="$ 0" oninput="total()">
+                    <datalist id="price_dye">
+                        <option value="100">
+                        <option value="200">
+                    </datalist>
+                </div>
+                <div class="obj_treatment">
+                    <label for="treatment"> 護髮金額 T :&emsp;</label>
+                    <input type="text" id="treatment" name="treatment" list="price_treatment" placeholder="$ 0" oninput="total()">
+                    <datalist id="price_treatment">
+                        <option value="100">
+                        <option value="200">
+                    </datalist>
+                </div>
+                <div class="obj_scalp">
+                    <label for="scalp"> 頭皮保養 ST:&emsp;</label>
+                    <input type="text" id="scalp" name="scalp" list="price_scalp" placeholder="$ 0" oninput="total()">
+                    <datalist id="price_scalp">
+                        <option value="100">
+                        <option value="200">
+                    </datalist>
+                </div>
+            </div>
+            
+               
+
+                
+                
+
+            </form>
+        </div>
+        <input type="text" id="Total" placeholder="$ 0" readonly>
+        <input type="button" id="submit" form="form1"  onclick="popup_confirm()" value="送出">
+        <input type="button" onclick="clearalltextbox()" value="全部重置">
+        
+
+       
+            
+        <script>
+            function clearalltextbox(){
+                document.getElementById('form1').reset();
+                document.getElementById('Total').value='';
+                /*document.getElementById('sum').innerHTML='';*/
+            }
+            function popup_confirm(){
+                if (confirm("確認送出?")) {
+                    document.getElementById('submit').setAttribute('type','submit')
+                    document.getElementById('submit').submit();
+                } else {
+                    document.getElementById('form1').reset();
+                }
+            }
+
+            function shampoo_price(){
+                var shampoo=parseInt(document.getElementById('shampoo').value) ||0 ;
+                return shampoo;
+            }
+            function haircut_price(){
+                var haircut=parseInt(document.getElementById('haircut').value) ||0;
+                return haircut ;
+            }
+            function perm_price(){
+                var perm=parseInt(document.getElementById('perm').value) ||0 ;
+                return perm ;
+            }
+            function dye_price(){
+                var dye=parseInt(document.getElementById('dye').value) ||0;
+                return dye ;
+            }
+            function treatment_price(){
+                var treatment=parseInt(document.getElementById('treatment').value) ||0;
+                return treatment ;
+            }
+            function scalp_price(){
+                var scalp=parseInt(document.getElementById('scalp').value) ||0;
+                return scalp ;
+            }
+            function total() {
+                document.getElementById('Total').value=
+
+                shampoo_price()+haircut_price()+perm_price()+dye_price()+treatment_price()+scalp_price();
+            }
+                
+          
+        </script>
+    </body>
+</html>
+
+
+       

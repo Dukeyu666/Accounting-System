@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src=" {{ url_for('static',filename='js/bootstrap.bundle.min.js') }} " ></script>
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">
+        <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+        <meta charset="uft-8">
+        <title>Bellevie Hair Salon system</title>
+        <style>
+             body{  
+                height: 100%;
+                height: 100%;
+                margin: 0;
+                padding:0;
+                font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, serif;
+                background-color:#FFFAF0;
+            }
+             a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+             .head{
+
+                color: rgb(236, 82, 113);
+                font-style: italic;
+                font-weight: bolder;
+                font-size: 90px ;
+                font-family:'Cinzel','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, serif;
+                text-align:center;
+                height: 200PX;
+                width: 100%;
+                line-height:200px;
+
+                /*position:relative; 固定位置 */
+                
+                /*border: 1px solid black;*/
+             }
+
+            .container_form1{
+                border:1px solid red;
+                width:100%;
+                height: 100%;
+                padding:30px;
+                
+            }  
+            .div_Designer{
+                border:1px solid red;
+                width: 50%;
+                height: 640px;
+                float: left;
+               
+            }
+            .insdie_Designer{
+                border:1px solid red;
+                text-align: right;
+                padding-right: 140px;
+                height: 160px;
+                font-size: 40px;
+            }
+            .div_Assistant{
+                border:1px solid red;
+                height: 480px;
+                font-size: 40px;
+                text-align: center;
+                padding-right: 100px;
+                
+            }
+            .fuck{
+                text-align: right;
+                width: auto;
+                margin-right: 250px;
+                
+            }
+
+            .block_Assistant{
+                border:1px solid red;
+                font-family: sans-serif;
+                margin: 10px;
+                height: auto;
+                font-size: 25px;
+                text-align: right;
+                padding-right: 20px;
+            }
+            .block_Assistant label{
+                font-family: sans-serif;
+                margin-left: 10px;
+                margin-right: 10px;
+                height: auto;
+                width: auto;
+                font-size: 30px;
+            }
+            .block_input_score label {
+                
+                border: none;
+                margin: 15px;
+                width: 130px;
+                text-align: center;
+                font-weight: 700;
+                font-size: 35px;
+                height: 65px;
+                line-height: 65px;
+                outline: none;
+                border-radius: 20px;
+                box-shadow: 8px 8px 8px rgb(75, 74, 74),0px 0px 8px rgb(159, 149, 149) ;
+            }
+            .block_input_score input {
+                border: none;
+                margin: 15px;
+                width: 100px;
+                text-align: center;
+                font-size: 35px;
+                height: 65px;
+                line-height: 65px;
+                outline: none;
+                border-radius: 20px;
+                box-shadow: 8px 8px 8px rgb(159, 149, 149),0px 0px 8px  rgb(159, 149, 149);
+            }
+            .div_price{
+                width: 50%;
+                height: 800px;
+                border:1px solid red;
+                float: right;
+                padding-top: 15px;
+                padding-left: 15px;
+            }
+            .div_price input{
+                font-size: 30px;
+                width:18%;
+                height: 60px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                margin-left: 20px;
+                line-height: 60px;
+                text-align: center;
+                border: none;
+                outline:inherit;
+                border-radius: 20px;
+                box-shadow: 8px 8px 8px rgb(159, 149, 149),0px 0px 8px  rgb(159, 149, 149);
+                /*
+                -webkit-box-shadow: inset 0 1px 1px  rgba(102,175,233,.6),0 0 8px rgba(102,175,233,.6);
+                box-shadow: inset 0px 1px 1px  rgba(102,175,233,.6),0 0 8px rgba(102,175,233,.6)
+                */
+            }
+
+            .div_price label{
+                width: auto;
+                height: 60px;
+                font-size: 30px;
+                
+            }    
+            select{
+                outline: none;
+                margin-top: 10px;
+                padding: 10px;
+                text-align-last:center;
+                border-radius: 20px;
+            }
+
+            
+            .goods{
+
+                text-align: left;
+                font-weight: 700;
+                font-size:30px;
+                height: auto ;
+                clear: both;
+                
+                
+            }
+            .goods div{
+                width: auto;
+                height: auto;
+                margin: 5px;
+                border:1px solid red;
+            }
+            .goods div label{
+                
+                font-weight: 700;
+                font-size:30px;
+                width: auto;
+                height: auto;
+                margin: 15px;
+                padding-right: 10px;
+                border:1px solid red;
+            }
+            .goods div input{
+               
+                border:1px solid red;
+                border: 0.5px solid gray;
+               
+                font-size:20px;
+                width: 100px;
+                height: auto;
+                outline:none;
+                border-radius: 20px;
+                box-shadow: 8px 8px 8px rgb(159, 149, 149),0px 0px 8px  rgb(159, 149, 149);
+            }
+            .div_price input[type='button']{
+                width: 70px;
+                font-size: 25px;
+            }
+            .label_total {
+                height: 100px;
+                text-align: center;
+                font-size: 50px;
+                font-weight: 900;
+           
+            }
+            .label_total label{
+                text-align: center;
+                font-size: 50px;
+                font-weight: 900;
+                color: rgb(230, 42, 42);
+            }
+            .label_total input{
+                font-weight: bold;
+                font-size: 60px;
+                height: 80px;
+                line-height: 80px;
+                width: 200px;
+                border-radius: 20px;
+                color: blanchedalmond;
+                background-color:#444340;
+                margin-bottom: 30px;
+            }
+
+
+            .clearfix::after{
+               content:"";
+               display: block;
+               clear: both;
+           }
+
+
+
+
+
+        </style>
+    </head>
+    <body>
+        <div class="head">
+           <a href="/" class='h1_link' >Bellevie Hair Salon</a>
+        </div>
+   
+
+        <div class="container_form1">
+            <form id="form1" action="/sales" method="post"  class="clearfix">
+                
+            <div class="div_Designer">
+                <div class="insdie_Designer">
+                    <label for="Designer" style="font-weight: bold;"> 設計師 :</label>
+                    <!--  optional Designer option
+                        <select id="Designer" name="Designer" required>
+                            <option value="Null">請選擇</option>
+                            <option value="Sherry">Sherry</option>
+                            <option value="Patty">Patty</option>
+                            <option value="Joe">Joe</option>
+                        </select>-->
+                    <select id="Designer" name="Designer" required>
+                        <option value='null'>請選擇</option>
+                        {% for designer in designers %}
+                        <option value="{{designer}}">{{designer}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="div_Assistant">
+                    <div class='fuck'> 
+                        <label for="Assistant" style="font-weight: bold;"> 助理 :</label>
+                    </div>
+                    <div class="block_Assistant">
+                        {% for assistant in assistants %}  
+                        <!--                
+                        <input type="checkbox" name="Assistant{{loop.index}}" value="{{assistant}}">
+                        -->
+                        <div class="block_input_score">
+                            <label for="Assistant" >{{assistant}}</label>
+                            <input type="text" id="Assistant{{loop.index}}" name="{{assistant}}" placeholder="點數">
+                        </div>        
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="div_price">
+                <div class="obj_shampoo" >
+                    <label for="shampoo"> 洗髮 $ :&emsp;</label>
+                    <input type="text" id="shampoo" name="shampoo" list="price_shampoo" placeholder="$ 0" oninput="total()">
+                            <datalist id="price_shampoo">
+                                <option value="100">
+                                <option value="200">
+                            </datalist>
+                </div>
+                <div class="obj_haircut">
+                    <label for="haircut"> 剪髮 $ :&emsp;</label>
+                    <input type="text" id="haircut" name="haircut" list="price_haircut" placeholder="$ 0" oninput="total()" >
+                        <datalist id="price_haircut">
+                            <option value="100">
+                            <option value="200">
+                        </datalist>
+                </div>
+                <div class="obj_perm">
+                    <label for="perm"> 燙髮 $ :&emsp;</label>
+                    <input type="text" id="perm" name="perm" list="price_perm" placeholder="$ 0" oninput="total()">
+                        <datalist id="price_perm">
+                            <option value="100">
+                            <option value="200">
+                        </datalist>
+                </div>
+                <div class="obj_dye">
+                    <label for="dye"> 染髮 $ :&emsp;</label>
+                    <input type="text" id="dye" name="dye" list="price_dye" placeholder="$ 0" oninput="total()">
+                    <datalist id="price_dye">
+                        <option value="100">
+                        <option value="200">
+                    </datalist>
+                </div>
+                <div class="obj_treatment">
+                    <label for="treatment"> 護髮 $ :&emsp;</label>
+                    <input type="text" id="treatment" name="treatment" list="price_treatment" placeholder="$ 0" oninput="total()">
+                    <datalist id="price_treatment">
+                        <option value="100">
+                        <option value="200">
+                    </datalist>
+                </div>
+                <div class="obj_scalp">
+                    <label for="scalp"> 頭皮 $ :&emsp;</label>
+                    <input type="text" id="scalp" name="scalp" list="price_scalp" placeholder="$ 0" oninput="total()">
+                    <datalist id="price_scalp">
+                        <option value="100">
+                        <option value="200">
+                    </datalist>
+                </div>
+                <div class="goods" id="goods" >
+                    <label for="product">店販商品:&emsp;</label>
+                    <select id='product' >
+                        <option>請選擇</option>
+                        <option>洗髮精</option>
+                        <option>護髮素</option>
+                        <option>造型產品</option>
+                        <option>Other</option>
+                    </select>
+                    <input type="button" value="新增" onclick="add_product()">
+                    <input type="button" value="刪除" onclick="rm_product();total()"> 
+                </div>
+            </div>
+                  
+ 
+                
+
+            </form>
+        </div>
+ 
+
+        <div class='label_total' id='label_total'>
+            <label id='Total'></label>
+            <div>
+                <input type="button" onclick="clearalltextbox()" value="重置">
+                <input type="button" id="submit" form="form1"  onclick="check_value()" value="送出">
+            </div>
+        </div>
+
+
+       
+            
+        <script>
+            function check_value(){
+                //  助理點數 沒有值的話則不送出多於的資料    //
+                {% for assistant in assistants %}
+                if(document.getElementById('Assistant{{loop.index}}').value ==''){
+                    document.getElementById('Assistant{{loop.index}}').removeAttribute('name')   
+                };
+                {%endfor%}
+                popup_confirm()
+            }
+            function clearalltextbox(){
+                document.getElementById('form1').reset();
+                document.getElementById('Total').innerText='';
+                /*document.getElementById('sum').innerHTML='';*/
+            }
+            function popup_confirm(){
+                if (confirm("確認送出?")) {
+                    document.getElementById('submit').setAttribute('type','submit')
+                    document.getElementById('submit').submit();
+                } else {
+                    document.getElementById('form1').reset();
+                }
+            }
+
+            function shampoo_price(){
+                var shampoo=parseInt(document.getElementById('shampoo').value) ||0 ;
+                return shampoo;
+            }
+            function haircut_price(){
+                var haircut=parseInt(document.getElementById('haircut').value) ||0;
+                return haircut ;
+            }
+            function perm_price(){
+                var perm=parseInt(document.getElementById('perm').value) ||0 ;
+                return perm ;
+            }
+            function dye_price(){
+                var dye=parseInt(document.getElementById('dye').value) ||0;
+                return dye ;
+            }
+            function treatment_price(){
+                var treatment=parseInt(document.getElementById('treatment').value) ||0;
+                return treatment ;
+            }
+            function scalp_price(){
+                var scalp=parseInt(document.getElementById('scalp').value) ||0;
+                return scalp ;
+            }
+            
+            function product_price(){
+                var sum=0;
+                for(var i=1; i<=count;i++){
+                    sum=sum+parseInt(document.getElementById('product-'+i).value ||0);    
+                }
+                return sum;
+            }
+
+            function total() {
+                document.getElementById('Total').innerText="總計 : $ "+
+                String(shampoo_price()+haircut_price()
+                +perm_price()+dye_price()
+                +treatment_price()
+                +scalp_price()
+                +product_price());
+            }
+            
+
+            
+            function rm_product(){
+
+                var PD=document.getElementById('PD'+count) ||'';
+                if(PD != ''){
+                    document.getElementById('PD'+count).remove()
+                    document.getElementById('product').selectedIndex=0;
+                    count--;
+                };
+            }
+            
+            function add_product(){
+                
+                
+                var selectIndex=document.getElementById('product').selectedIndex;
+                var optIndex=document.getElementById('product').options;
+                //document.getElementById('A').innerText=DD[SS].text;
+                if(selectIndex != 0){
+                    count++;
+                    var newDiv=document.createElement('div');
+                        newDiv.setAttribute('id','PD'+count);
+                    var newLabel=document.createElement('label');
+                        newLabel.innerText=optIndex[selectIndex].text+" $ :";
+
+                    var newInputText=document.createElement('input');
+                        newInputText.setAttribute('type','text');
+                        newInputText.setAttribute('id','product-'+count)
+                        newInputText.setAttribute('name',optIndex[selectIndex].text)
+                        newInputText.setAttribute('placeholder'," $ 0 ");
+                        newInputText.setAttribute('oninput',"total()");
+                        
+                   document.getElementById('goods').appendChild(newDiv).appendChild(newLabel);
+                   document.getElementById('goods').appendChild(newDiv).appendChild(newInputText);
+                   document.getElementById('product').selectedIndex=0;
+                }
+            }
+            var count=0;
+          
+        </script>
+    </body>
+</html>
+
+
+       

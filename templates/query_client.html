@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+
+
+      
+        </style>
+    </head>
+    <body>
+      <div class="container-md mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+      <div class="container-md mt-5 text-center fs-3 text-secondary">
+        顧客資料查詢與修改
+      </div>
+      <div class="container-md mt-3">
+        <form action="/query_client" method="POST">
+          <div class="row-5">
+            <div class="col-md-3 mx-auto">
+              <div class="form-floating mb-3">
+                <input type="tel" class="form-control fs-4 text-center" id="floatingInput" name="phone" placeholder="phone" minlength="10" maxlength="10" required>
+                <label for="floatingInput">Phone</label>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3 mb-4">
+            <div class="d-grid gap-2 d-md-block text-center">
+                <button type="submit" class="btn btn-outline-primary fs-4">查詢</button>
+                <a href="/clients_data" class="btn text-primary fs-4">返回</a>
+            </div>
+          </div>
+        </form>
+        
+      </div>
+      <div class="container-md text-secondary">
+        雙擊即可編輯
+        <form action="/modify_request" id="form2" method="POST">
+          <div class="table-responsive-sm">
+            <table class="table table-success table-striped mx-auto">
+                <thead>
+                    <tr class="table-active">
+                      <th scope="col" class="col-sm-3 fs-6">姓名</th>
+                      <th scope="col" class="col-sm-3 fs-6 ">電話</th>
+                      <th scope="col" class="col-sm-3 fs-6 ">生日</th>
+                      <th scope="col" class="col-sm-3 fs-6 ">餘額</th>
+                    </tr>
+                    <tr>
+                      <td id="name" class="fs-6" ondblclick="change_name_area()">{{name}}</td>
+                      <td id="phone" class="fs-6" ondblclick="change_phone_area()">{{phone}}</td>
+                      <td id="birthday" class="fs-6" ondblclick="change_birthday_area()">{{birthday}}</td>
+                      <td id="balance" class="fs-6" style="color: red; font-weight: 500;" ondblclick="change_balance_area()">{{balance}}</td>
+                    </tr>
+                </thead>
+            </table>
+          </div>
+        </form>
+      </div>    
+      <div class="container-md text-secondary">
+        <div class="row justify-content-center">
+          <div class="col-6 text-center ">
+              <button type="submit" form="form2" id="change_btn1" class="btn btn-sm btn-outline-primary  fs-5" disabled>確認修改</button>
+              <button type="button" id="change_btn2" class="btn btn-sm btn-outline-primary fs-5" onclick="reload()" >重置</button>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+
+    <script>
+      function reload(){
+        location.href='/query_client'
+      }
+      
+
+      function change_phone_toSubmit(){
+        var i;
+        var tag='';
+        var x=document.getElementsByTagName('input');
+        for(i=0;i < x.length;i++){
+          if(x[i].id == 'phone2'){ 
+            var tag=document.getElementById('phone2').getAttribute('type');
+            break;
+          }
+        };
+        if(tag != "tel"){
+          var createEle=document.createElement('input');
+            createEle.setAttribute('class','form-control fs-5 text-center');
+            createEle.setAttribute('type','tel');
+            createEle.setAttribute('name','phone');
+            createEle.setAttribute('value','{{phone}}');
+            createEle.setAttribute('id','phone2');
+            createEle.setAttribute('readonly','True');
+            createEle.setAttribute('ondblclick',"document.getElementById('phone2').removeAttribute('readonly')");    
+            document.getElementById('phone').innerText="";
+            document.getElementById('phone').appendChild(createEle);
+        }
+      }
+
+      function change_name_area(){
+          if(document.getElementById('name').innerText != ""){
+            var createEle=document.createElement('input');
+              createEle.setAttribute('class','form-control fs-5 text-center');
+              createEle.setAttribute('type','text');
+              createEle.setAttribute('name','name');
+              createEle.setAttribute('required','True');
+              createEle.setAttribute('value','{{name}}');
+              change_phone_toSubmit();
+              document.getElementById('name').innerText="";
+              document.getElementById('name').appendChild(createEle);
+              document.getElementById('change_btn1').removeAttribute('disabled')
+          } 
+      }
+      function change_phone_area(){
+        if(document.getElementById('phone').innerText != "" ){
+        var createEle=document.createElement('input');
+            createEle.setAttribute('class','form-control fs-5 text-center');
+            createEle.setAttribute('type','tel');
+            createEle.setAttribute('name','phone');
+            createEle.setAttribute('id','phone2');
+            createEle.setAttribute('maxlength','10');
+            createEle.setAttribute('minlength','10');
+            createEle.setAttribute('required','True');
+            createEle.setAttribute('value','{{phone}}');
+            document.getElementById('phone').innerText="";
+            document.getElementById('phone').appendChild(createEle);
+            document.getElementById('change_btn1').removeAttribute('disabled')
+            
+            var createEle2=document.createElement('input');
+            createEle2.setAttribute('class','form-control fs-5 text-center');
+            createEle2.setAttribute('type','hidden');
+            createEle2.setAttribute('name','phone_old');
+            createEle2.setAttribute('id','phone3');
+            createEle2.setAttribute('maxlength','10');
+            createEle2.setAttribute('minlength','10');
+            createEle2.setAttribute('value','{{phone}}');
+            document.getElementById('phone').appendChild(createEle2);
+        }
+      }
+      function change_birthday_area(){
+        if(document.getElementById('birthday').innerText != ""){
+        var createEle=document.createElement('input');
+            createEle.setAttribute('class','form-control fs-5 text-center');
+            createEle.setAttribute('type','date');
+            createEle.setAttribute('name','birthday');
+            createEle.setAttribute('required','True');
+            createEle.setAttribute('value','{{birthday}}');
+            change_phone_toSubmit();
+            document.getElementById('birthday').innerText="";
+            document.getElementById('birthday').appendChild(createEle);
+            document.getElementById('change_btn1').removeAttribute('disabled')   
+        }
+      }
+
+      function change_balance_area(){
+        if(document.getElementById('balance').innerText != ""){
+        var createEle=document.createElement('input');
+            createEle.setAttribute('class','form-control fs-5 text-center');
+            createEle.setAttribute('type','text');
+            createEle.setAttribute('name','balance');
+            createEle.setAttribute('id','balance2');
+            createEle.setAttribute('required','True');
+            createEle.setAttribute('value',"{{balance|replace(',','') }}");
+            change_phone_toSubmit();
+            document.getElementById('balance').innerText="";
+            document.getElementById('balance').appendChild(createEle);
+            document.getElementById('change_btn1').removeAttribute('disabled')   
+        }
+            
+      }
+
+        {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+        {% endwith %}
+
+    </script>
+    </body>
+</html>

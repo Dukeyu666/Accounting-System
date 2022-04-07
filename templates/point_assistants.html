@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+            .container{
+              max-width: 100%;
+            }
+
+
+            
+      
+        </style>
+    </head>
+    <body>
+      <div class="container-md mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+      
+      <div class="container-md fs-5 text-secondary ">
+        <div class="row justify-content-center">
+            <div class="col-sm-3">
+             
+              <form action="/point_assistants" method="POST">
+              點數查詢
+                <div>
+                  <select class="form-select fs-6 mt-3 mb-3" name="Assistant" required style="text-align-last:center;letter-spacing:2px;">
+                    <option value="">請選擇</option>
+                    {% for assistant in assistants %}
+                      <option value="{{assistant}}">{{assistant}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div>
+                  <label for="">請選擇期間</label>
+                  <input class="form-control text-center fs-6 mt-3 mx-auto" id='date1' style="letter-spacing:5px" type="date" name="date1" onblur="date2_chk()" required>
+                </div>
+                <div class="text-center mt-3">
+                  <label class="text-secondary" for="">至</label>
+                  <input class="form-control text-center fs-6 mt-3 mx-auto" id='date2' style="letter-spacing:5px" type="date" name="date2"  required>
+                </div>
+                <div class="col text-center mt-3">
+                  <button type="submit" name='query' value="query" class="btn btn-outline-primary  mx-auto">查詢</button>
+                  <button type="button" id="change_btn2" class="btn btn-sm btn-outline-primary fs-5" onclick="reload()" >重置</button>
+                </div>
+              </form>
+            </div>
+        </div>
+        {% if all_result%}
+        <div class="row justify-content-center mt-4">
+          <div class="col-sm-3 text-center" style="text-align: center;">
+              <label id="label_date" class="text-secondary" ></label>
+          </div>
+        </div>
+        <div class="text-danger text-center mt-3 fs-4">
+          <label>{{ sum_assist }}</label>
+        </div>
+
+        
+        <div class="row mt-3 justify-content-center">
+          <div class="col-4 form-floating">
+            <div class="table-responsive-sm">
+              <table class="table table-success table-striped mx-auto">
+                <tr class="table-active">
+                  <th scope="col" class="col-sm-4 fs-6">單號</th>
+                  <th scope="col" class="col-sm-4 fs-6 ">點數</th>
+                  <th scope="col" class="col-sm-4 fs-6 ">時間</th>
+                </tr>
+                {% for orderNo,point,time in all_result %}
+                <tr id="table{{time}}#{{orderNo}}">
+                    <td class="fs-6" id='order{{time}}#{{orderNo}}' ># {{orderNo}}</td>
+                    <td class="fs-6" id='point{{time}}#{{orderNo}}' ondblclick='' >{{point}}</td>
+                    <td class="fs-6" id='time{{time}}#{{orderNo}}' >{{time}}</td>
+                </tr>
+                {% endfor %}
+              </table>
+              
+            </div>
+          </div>
+          <div class="col-4">
+            <select class="form-select fs-6 mt-3" id="orderNo" name="orderNo" style="text-align-last: center ;width: 298px;" onchange="show_form();" required>
+              <option value="">修改單號</option>
+              {% for orderNo,point,time in all_result %}
+                <option value="{{time}}#{{orderNo}}">{{time}}#{{orderNo}}</option>
+              {% endfor %}
+            </select>
+            <form class="form" action="" id="form2" method="POST">
+              <div class="row  text-center">
+                <div class="col text-center " id="col2"></div>
+              </div>
+              <div class="row mt-4">
+                <div class="col text-center">
+                  <button type="submit" class="btn btn-outline-primary" name="form_submit" value="form_submit" >修改</button>
+                  <button type="button" class="btn btn-sm btn-outline-primary fs-5" onclick="location.href='/';" >返回</button>
+                </div>
+              </div>
+              </form>
+
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      
+
+
+
+
+    
+
+      <script>
+        {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+        {% endwith %}
+        
+        
+        function reload(){
+            location.href='/point_assistants';
+        };
+
+        
+        document.getElementById('label_date').innerText="{{date1}} - {{date2}}";
+        
+        function date2_chk(){
+          var date1=document.getElementById('date1').value;
+          document.getElementById('date2').setAttribute('min',date1);
+        };
+
+        function show_form(){
+          var selectIndex=document.getElementById('orderNo').selectedIndex;
+          var optIndex=document.getElementById('orderNo').options;
+          select_value=optIndex[selectIndex].text;
+          console.log(select_value);
+          if(select_value){
+            var table_value=document.getElementById('table'+select_value);
+            var cln=table_value.cloneNode(true);
+            
+            var oldchild=document.getElementById('col2').hasChildNodes();
+            if(oldchild){
+              document.getElementById('col2').innerHTML='';
+            }
+            change_form_area(select_value);
+            //document.getElementById('col2').appendChild(cln);
+            document.getElementById('orderNo').selectedIndex=0;
+            //document.getElementById('table_value'+select_value).remove();
+            
+          }
+
+        }
+
+        function change_form_area(select_value){
+          if(document.getElementById('table'+select_value).innerText != ""){
+            console.log(select_value);
+            var get_order=document.getElementById('order'+select_value).innerHTML;
+            var get_point=document.getElementById('point'+select_value).innerHTML;
+            var get_time=document.getElementById('time'+select_value).innerHTML;
+
+          //---------------- 單號------------------------
+            var newDiv=document.createElement('div');
+                newDiv.setAttribute('class','input-group mt-3 text-center')
+            var createEle=document.createElement('label');
+                createEle.setAttribute('class','fs-5');
+                createEle.innerHTML="單號";
+            var newInputText=document.createElement('input');
+                newInputText.setAttribute('class','form-control text-center mt-3 fs-6 ');
+                newInputText.setAttribute('type','text');
+                newInputText.setAttribute('name','orderNo');
+                newInputText.setAttribute('value',select_value);
+                newInputText.setAttribute('readonly',"true");
+
+              document.getElementById('col2').appendChild(newDiv).appendChild(createEle);
+              document.getElementById('col2').appendChild(newInputText);
+          //------------------- point -----------------------------
+            var newDiv=document.createElement('div');
+                newDiv.setAttribute('class','input-group mt-2 text-center')
+            var createEle=document.createElement('label');
+                createEle.setAttribute('class','fs-5');
+                createEle.innerHTML="點數";
+             var newInputText=document.createElement('input');
+                newInputText.setAttribute('class','form-control text-center mt-2 fs-6 ');
+                newInputText.setAttribute('type','number');
+                newInputText.setAttribute('name','point');
+                newInputText.setAttribute('value',get_point);
+                newInputText.setAttribute('required','true');
+
+              document.getElementById('col2').appendChild(newDiv).appendChild(createEle);
+              document.getElementById('col2').appendChild(newInputText);
+  
+          } }
+
+        
+
+
+
+
+
+      </script>
+    </body>
+</html>

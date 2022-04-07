@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+
+            
+      
+        </style>
+    </head>
+    <body>
+      <div class="container mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+
+      <div class="container ">
+        <div class="row justify-content-center">
+          <div class="col-sm-5 bg-light">
+            <form action="" id='form1' method="POST">
+              <div>
+                <label for="">請選擇日期</label>
+                <input class="form-control text-center fs-6 mt-3 mx-auto" id='date1' style="letter-spacing:5px" type="date" name="date" min="{{minday}}" max="{{maxday}}" value="{{maxday}}" required>
+              </div>
+              <div class="row mt-3">
+                <label for="">設計師</label>
+                <div>
+                  <select class="form-select fs-6 mt-3 " name="designer" style="text-align-last: center ;" required>
+                    <option value="">請選擇</option>
+                    {% for designer in designers %}
+                      <option value="{{designer}}">{{designer}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+              </div>
+              <div class="col text-center mt-3">
+                <button type="submit" class="btn btn-outline-primary  mx-auto" name="query_submit" value="query_submit" >查詢</button>
+                <button type="button" id="change_btn2" class="btn btn-sm btn-outline-primary fs-5" onclick="reload()" >重置</button>
+              </div>
+            </form>
+            {% if results %}
+              <div class="col">
+                <div class="text-center fs-6 mt-2">
+                  <label class="text-danger fs-4">[ 個人業績 ]</label>
+                </div>
+              <table class="table table-hover table-light table-striped mt-2 mx-auto">
+                <tr class="table-active">
+                  <th scope="col" class="col fs-6">單號</th>
+                  <th scope="col" class="col fs-6 ">業績</th>
+                  <th scope="col" class="col fs-6">販售人員</th>
+                  <th scope="col" class="col fs-6 ">商品金額</th>
+                  <th scope="col" class="col fs-6">付款方式</th>
+                  <th scope="col" class="col fs-6 ">顧客電話</th>
+                </tr>
+                {% for result in results %}
+                {% for orderNo,total,seller,pd_total,payment,phone in result %}
+                <tr id="table_value{{orderNo}}">
+                  <td id="order{{orderNo}}" class="fs-6" >{{orderNo}}</td>
+                  <td id="sales{{orderNo}}" class="fs-6"  >{{total}}</td>
+                  <td id="seller{{orderNo}}" class="fs-6"  >{{seller}}</td>
+                  <td id="pd_sales{{orderNo}}" class="fs-6"  >{{pd_total}}</td>
+                  <td id="payment{{orderNo}}" class="fs-6" >{{payment}}</td>
+                  <td id="phone{{orderNo}}" class="fs-6" >{{phone}}</td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+
+                </table>
+
+              </div>
+            {% endif%}
+
+          </div>
+
+
+  
+          <div class="col-sm-6 " >
+            {% if results%}
+                <div>
+                  <select class="form-select fs-6 mt-3 offset-1" id="orderNo" name="orderNo" style="text-align-last: center ;width: 280px;" onchange="show_form();chk_payment_change1();" required>
+                    <option value="">請選擇單號</option>
+                    {% for result in results %}
+                      {% for orderNo,total,seller,pd_total,payment,phone in result %}
+                        <option value="{{orderNo}}">{{orderNo}}</option>
+                      {% endfor %}
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="container">
+                  <form class="form" action="" id="form2" method="POST">
+                    <input type='hidden' name='date' id='date2' value="{{date}}" >
+                    <input type='hidden' name='designer'  value="{{designer}}" >
+                    <div class="row justify-content-center">
+                      <div class="col text-center offset-2" id="col2"></div>
+                      <div class="row text-center mt-3">
+                        <div class="col">
+                          <button type="submit" class="btn btn-outline-primary  mx-auto" name="form_submit" value="form_submit" >修改</button>
+                          <button type="button" class="btn btn-sm btn-outline-primary fs-5" onclick="location.href='/';" >返回</button>
+                        </div>  
+                      </div>
+                    </div>
+                  </form>
+                </div>
+            {% endif %}
+
+
+<!--
+            <div class="row">
+              <div class="col-8 offset-2">
+              <select class="form-select fs-6 mt-3 " id="orderNo" name="orderNo" style="text-align-last: center ;" onchange="show_form();" required>
+                <option value="">請選擇單號</option>
+                    <option value="{{orderNo}}">3</option>
+                    <option value="{{orderNo}}">4</option>
+                    <option value="{{orderNo}}">5</option>
+                    <option value="{{orderNo}}">6</option>
+                </select>
+              </div>
+            </div>
+            <div class="container">
+              <form class="form" id="form2" method="POST">
+                <input type='hidden' name='date' id='date2' value="{{date}}" >
+                <div class="row justify-content-center">
+                  <div class="col text-center offset-2" id="col2"></div>
+                  <div class="row text-center mt-3">
+                    <div class="col">
+                      <button type="submit" class="btn btn-outline-primary  mx-auto" name="form_submit" value="form_submit" >修改</button>
+                      <button type="button" class="btn btn-sm btn-outline-primary fs-5" onclick="location.href='/';" >返回</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            -->
+          </div>
+      </div>
+      
+
+
+
+
+
+
+
+      <script> 
+        function reload(){
+        location.href='/modify_sales'
+        }
+        /*
+        function chk_deposit(){
+            if(document.getElementById('select_payment').value == 'deposit'){
+              console.log('true');
+              document.getElementById('floatingInput').setAttribute('required','True');
+            }else{
+              //document.getElementById('floatingInput').removeAttribute('required')
+            }
+          }*/
+        var select_value
+
+        function show_form(){
+          var selectIndex=document.getElementById('orderNo').selectedIndex;
+          var optIndex=document.getElementById('orderNo').options;
+          select_value=optIndex[selectIndex].text;
+
+          if(select_value){
+            var table_value=document.getElementById('table_value'+select_value);
+            var cln=table_value.cloneNode(true);
+            
+            var oldchild=document.getElementById('col2').hasChildNodes();
+            if(oldchild){
+              document.getElementById('col2').innerHTML='';
+            }
+            change_form_area(select_value);
+            //document.getElementById('col2').appendChild(cln);
+            document.getElementById('orderNo').selectedIndex=0;
+            //document.getElementById('table_value'+select_value).remove();
+            
+          }
+
+        }
+        
+
+
+       function change_form_area(select_value){
+          if(document.getElementById('table_value'+select_value).innerText != ""){
+            var get_order=document.getElementById('order'+select_value).innerHTML;
+            var get_sales=document.getElementById('sales'+select_value).innerHTML;
+            var get_seller=document.getElementById('seller'+select_value).innerHTML;
+            var get_pd_sales=document.getElementById('pd_sales'+select_value).innerHTML;
+            var get_payment=document.getElementById('payment'+select_value).innerHTML;
+            var get_phone=document.getElementById('phone'+select_value).innerHTML;
+
+          //---------------- 單號------------------------
+            var newDiv=document.createElement('div');
+                newDiv.setAttribute('class','input-group mt-3 text-center')
+            var createEle=document.createElement('label');
+                createEle.setAttribute('class','fs-5');
+                createEle.innerHTML="單號";
+            var newInputText=document.createElement('input');
+                newInputText.setAttribute('class','form-control text-center mt-3 fs-6 w-75');
+                newInputText.setAttribute('type','text');
+                newInputText.setAttribute('name','orderNo');
+                newInputText.setAttribute('value',select_value);
+                newInputText.setAttribute('readonly',"true");
+
+              document.getElementById('col2').appendChild(newDiv).appendChild(createEle);
+              document.getElementById('col2').appendChild(newInputText);
+          //-------------------  業績-----------------------------
+            var newDiv=document.createElement('div');
+                newDiv.setAttribute('class','input-group mt-2 text-center')
+            var createEle=document.createElement('label');
+                createEle.setAttribute('class','fs-5');
+                createEle.innerHTML="業績";
+             var newInputText=document.createElement('input');
+                newInputText.setAttribute('class','form-control text-center mt-2 fs-6 w-75');
+                newInputText.setAttribute('type','text');
+                newInputText.setAttribute('name','sales');
+                newInputText.setAttribute('value',get_sales);
+                newInputText.setAttribute('required','true');
+
+              document.getElementById('col2').appendChild(newDiv).appendChild(createEle);
+              document.getElementById('col2').appendChild(newInputText);
+
+          //-------------------  販售人員-----------------------------
+          var newDiv=document.createElement('div');
+                newDiv.setAttribute('class','input-group mt-2 text-center')
+            var createEle=document.createElement('label');
+                createEle.setAttribute('class','fs-5');
+                createEle.innerHTML="販售人員";
+            var newInputText=document.createElement('select');
+                newInputText.setAttribute('class','form-select text-center mt-2 fs-6 w-75');
+                newInputText.setAttribute('style','text-align-last: center');
+                newInputText.setAttribute('name','seller');
+                newInputText.setAttribute('id','select_seller');
+                newInputText.setAttribute('required','true');
+            var newoption=document.createElement('option');
+                newoption.setAttribute('value','None');
+                newoption.innerHTML="無";
+            
+            var newoptgroup1=document.createElement('optgroup');
+                newoptgroup1.setAttribute('label','Designer');
+                newoptgroup1.setAttribute('id','opt_Designer');
+            var newoptgroup2=document.createElement('optgroup');
+                newoptgroup2.setAttribute('label','Assistant');
+                newoptgroup2.setAttribute('id','opt_Assistant');
+            
+
+            document.getElementById('col2').appendChild(newDiv).appendChild(createEle);
+            document.getElementById('col2').appendChild(newInputText);
+            document.getElementById('select_seller').appendChild(newoption);
+            document.getElementById('select_seller').appendChild(newoptgroup1);
+            document.getElementById('select_seller').appendChild(newoptgroup2);
+            {% for designer in designers %}
+                var newoption=document.createElement('option');
+                newoption.setAttribute('value','{{designer}}');
+                newoption.innerHTML="{{designer}}";
+                document.getElementById('opt_Designer').appendChild(newoption);
+            {% endfor %}
+              
+            {% for assistant in assistants %}
+                var newoption=document.createElement('option');
+                newoption.setAttribute('value','{{assistant}}');
+                newoption.innerHTML="{{assistant}}";
+                document.getElementById('opt_Assistant').appendChild(newoption);
+            {% endfor %}
+            
+            document.getElementById('select_seller').value=get_seller;
+
+
+
+
+          //-------------------  商品金額-----------------------------
+          var newDiv=document.createElement('div');
+                newDiv.setAttribute('class','input-group mt-2 text-center')
+            var createEle=document.createElement('label');
+                createEle.setAttribute('class','fs-5');
+                createEle.innerHTML="商品金額";
+             var newInputText=document.createElement('input');
+                newInputText.setAttribute('class','form-control text-center mt-2 fs-6 w-75');
+                newInputText.setAttribute('type','text');
+                newInputText.setAttribute('name','pd_sales');
+                newInputText.setAttribute('value',get_pd_sales);
+                newInputText.setAttribute('required','true');
+
+              document.getElementById('col2').appendChild(newDiv).appendChild(createEle);
+              document.getElementById('col2').appendChild(newInputText);
+
+          //-------------------  顧客電話-----------------------------
+          var newDiv=document.createElement('div');
+                newDiv.setAttribute('class','input-group mt-2 text-center')
+            var createEle=document.createElement('label');
+                createEle.setAttribute('class','fs-5');
+                createEle.innerHTML="顧客電話";
+             var newInputText=document.createElement('input');
+                newInputText.setAttribute('class','form-control text-center mt-2 fs-6 w-75');
+                newInputText.setAttribute('type','tel');
+                newInputText.setAttribute('minlength','10');
+                newInputText.setAttribute('maxlength','10');
+                newInputText.setAttribute('required','true');
+                newInputText.setAttribute('name','phone');
+                newInputText.setAttribute('id','phone');
+                newInputText.setAttribute('value',get_phone);
+                
+
+              document.getElementById('col2').appendChild(newDiv).appendChild(createEle);
+              document.getElementById('col2').appendChild(newInputText); 
+
+          //-------------------  付款方式-----------------------------
+          var newDiv=document.createElement('div');
+                newDiv.setAttribute('class','input-group mt-2 text-center')
+            var createEle=document.createElement('label');
+                createEle.setAttribute('class','fs-5');
+                createEle.innerHTML="付款方式";
+            var newInputText=document.createElement('select');
+                newInputText.setAttribute('class','form-select text-center mt-2 fs-6 w-75');
+                newInputText.setAttribute('style','text-align-last: center');
+                newInputText.setAttribute('name','payment');
+                newInputText.setAttribute('id','select_payment');
+                newInputText.setAttribute('required','true');
+                newInputText.setAttribute('onchange','chk_payment_change2()');
+            var newoption1=document.createElement('option');
+                newoption1.setAttribute('value','cash');
+                newoption1.innerHTML="Cash";
+            var newoption2=document.createElement('option');
+                newoption2.setAttribute('value','deposit');
+                newoption2.innerHTML="Deposit";
+            var newoption3=document.createElement('option');
+                newoption3.setAttribute('value','transfer');
+                newoption3.innerHTML="Transfer";
+            var newoption4=document.createElement('option');
+                newoption4.setAttribute('value','FunNow');
+                newoption4.innerHTML="FunNow";
+
+                
+
+              document.getElementById('col2').appendChild(newDiv).appendChild(createEle);
+              document.getElementById('col2').appendChild(newInputText).appendChild(newoption1)
+              document.getElementById('select_payment').appendChild(newoption2);
+              document.getElementById('select_payment').appendChild(newoption3);
+              document.getElementById('select_payment').appendChild(newoption4);
+              
+              document.getElementById('select_payment').value=get_payment;
+  
+          } }
+
+ 
+
+        var old_payment;
+      function chk_payment_change1(){
+        old_payment=document.getElementById('select_payment').value;
+      }
+      
+      function chk_payment_change2(){
+        var payment=document.getElementById('select_payment').value;
+        console.log(old_payment);
+        console.log(payment);
+        if(old_payment == 'deposit' && payment != 'deposit' ){
+          document.getElementById('phone').setAttribute('pattern','09\\d{8}');
+        }else if(payment == 'deposit'){
+          document.getElementById('phone').setAttribute('pattern','09\\d{8}');
+        }
+        else{
+          document.getElementById('phone').removeAttribute('pattern');
+        }
+      }
+      {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+      {% endwith %}
+
+      </script>
+    </body>
+</html>

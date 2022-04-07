@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+            .tel{
+              outline: none;
+              border: none;
+              background-color: inherit;
+            }
+
+
+      
+        </style>
+    </head>
+    <body>
+      <div class="container-md mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+      <div class="container-md mt-5 text-center fs-3 text-secondary">
+        顧客加值
+      </div>
+      <div class="container-md mt-3">
+        <form  method="POST">
+          <div class="row-5">
+            <div class="col-md-3 mx-auto">
+              <div class="form-floating mb-3">
+                <input type="tel" class="form-control fs-4 text-center" id="floatingInput" name="phone" placeholder="phone" minlength="10" maxlength="10" required>
+                <label for="floatingInput">Phone</label>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3 mb-4">
+            <div class="d-grid gap-2 d-md-block text-center">
+                <button type="submit" class="btn btn-outline-primary fs-4" formaction="/deposit" >搜尋</button>
+                <a href="/clients_data" class="btn text-primary fs-4">返回</a>
+            </div>
+          </div>
+        </form>
+        
+      </div>
+    
+      <div class="container-md text-secondary ">
+        <form action="/process_deposit" id="form2" method="POST">
+          <div class="table-responsive-sm">
+            <table class="table table-info table-striped mx-auto">
+                <thead>
+                    <tr class="table-active">
+                      <th scope="col" class="col-sm-4 fs-6">姓名</th>
+                      <th scope="col" class="col-sm-4 fs-6 ">電話</th>
+                      <th scope="col" class="col-sm-4 fs-6 ">現有餘額</th>
+                    </tr>
+                    <tr>
+                      <td id="name" class="fs-6 col-3" >{{name}}</td>
+                      <td class="fs-6 col-3" ><input type="tel" class="tel" id="tel" name="phone" value="{{ phone }}" readonly></td>
+                      <td class="fs-6 col-6" style="color: red; font-weight: 500;">{{balance}}</td>
+                    </tr>
+                </thead>
+            </table>
+          </div>
+        <div class="row mt-5 mb-3">
+          <div class="col-6 col-sm-4 mx-auto">
+            <div class="input-group mb-3 ">
+              <span class="input-group-text">加值 $</span>
+              <input type="number" name="money" id="money" class="form-control form-control-sm text-center fs-5" aria-label="Amount (to the nearest dollar)" placeholder="$ 0" required>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>    
+      <div class="container-md text-secondary">
+        <div class="row justify-content-center">
+          <div class="col-6 text-center ">
+              <button type="submit" form="form2" id="change_btn1" class="btn btn-sm btn-outline-primary fs-5" onclick="popup_confirm()" disabled >確認加值</button>
+              <button type="button" id="change_btn2" class="btn btn-sm btn-outline-primary fs-5" onclick="reload()" >重置</button>
+          </div>
+        </div>
+      </div>
+   
+    
+    </div>
+
+    <script>
+      
+      if(document.getElementById('tel').value != ''){
+          document.getElementById('change_btn1').removeAttribute('disabled');
+        }else{
+          document.getElementById('change_btn1').setAttribute('disabled','True');    
+      }
+
+      function reload(){
+        location.href='/deposit'
+      }
+
+
+      function popup_confirm(){
+                if (confirm("確認加值?")) {
+                  if(document.getElementById('tel').value == ''  ){
+                    alert("請指定一位顧客")
+                  }
+                }
+            }
+        {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+        {% endwith %}
+
+    </script>
+    </body>
+</html>

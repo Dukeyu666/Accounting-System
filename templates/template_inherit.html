@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Css import-->
+        <script src=" {{ url_for('static',filename='js/bootstrap.bundle.min.js') }} " ></script>
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} " >
+        <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+        <meta charset="uft-8">
+        <title>Bellevie Hair Salon system</title>
+        <link rel="icon" href="#"/>
+        <style>
+            *{  
+                height: 100%;
+                height: 100%;
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+            }
+             a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+             .head{
+                margin-left: auto;
+                margin-right: auto;
+                color: rgb(236, 82, 113);
+                font-style: italic;
+                font-weight: bolder;
+                font-size: 90px ;
+                font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                text-align:center;
+                height: auto;
+                width: auto;
+                line-height:300px;
+                /*position:relative; 固定位置 */
+                /*border: 1px solid black;*/
+             }
+             {% block style %}
+             {% endblock style %}
+             
+        </style>
+    </head>
+
+    <body>
+        <div class="head">
+            <a href="/" class='h1_link' >Bellevie Hair Salon</a>
+        </div>
+
+        {% block content %}{% endblock content %}
+    
+
+        <script></script>
+    </body>
+  
+
+
+</html>

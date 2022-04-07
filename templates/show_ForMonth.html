@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+
+            
+      
+        </style>
+    </head>
+    <body>
+      <div class="container-md mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+
+      <div class="container-md fs-5 text-secondary ">
+        <div class="row justify-content-center">
+            <div class="col-sm-3">
+              <form action="/show_ForMonth" method="POST">
+                <div>
+                  <label for="">請選擇月份</label>
+                  <input class="form-control text-center fs-6 mt-3 mx-auto" id='date1' style="letter-spacing:5px" type="month" name="date"  required>
+                </div>
+                <div class="col text-center mt-3">
+                  <!--<button type="submit" class="btn btn-outline-primary  mx-auto">匯出</button>-->
+                  <button type="submit" class="btn btn-outline-primary  mx-auto">查詢</button>
+                  <button type="button" id="change_btn2" class="btn btn-sm btn-outline-primary fs-5" onclick="reload()" >重置</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+
+
+
+      <div class="row justify-content-center mt-4">
+        <div class="col-sm-3 text-center fs-4">
+            <label id="label_date" class="text-secondary fst-italic" ></label>
+        </div>
+      </div>
+
+
+
+      <div class="container-sm text-secondary  mt-3">
+        <div class="row justify-content-center">
+          {% if result %}
+            <div class="col-4 bg-light ">
+              <div class="text-center fs-6 mt-2">
+                <label class="text-danger fs-4">[ 總業績 ]</label>
+              </div>
+              <table class="table table-hover table-success table-striped mt-2 mx-auto">
+                <tr class="table-active">
+                  <th scope="col" class="col-2 fs-6">設計師</th>
+                  <th scope="col" class="col-2 fs-6 ">業績</th>
+                </tr>
+                {% for name,sales in result %}
+                <tr>
+                  <td class="fs-6" >{{name}}</td>
+                  <td class="fs-6" >{{sales}}</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          {% endif %}
+          {% if product_result %}
+          <div class="col-4 .bg-info ">
+            <div class="text-center mt-2">
+              <label class="fs-4">[ 總銷售 ]</label>
+            </div>
+            <table class="table table-hover table-secondary table-striped mt-2 mx-auto">
+              <tr class="table-active">
+                <th scope="col" class="col-2 fs-6 table-active">販售人員</th>
+                <th scope="col" class="col-2 fs-6 table-active">金額</th>
+              </tr>
+              {% for name,num in product_result %}
+              <tr>
+                <td class="fs-6" ># {{name}}</td>
+                <td class="fs-6" >{{num}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% endif %}
+          {% if payment_result %}
+          <div class="col-4 .bg-info ">
+            <div class="text-center mt-2">
+              <label class="text-danger fs-4">[ 月結 ]</label>
+            </div>
+            <table class="table table-hover table-striped mt-2 mx-auto">
+              <tr class="table-active">
+                <th scope="col" class="col-2 fs-6 table-active">付款方式</th>
+                <th scope="col" class="col-2 fs-6 table-active">金額</th>
+              </tr>
+              {% for name,num in payment_result %}
+              <tr>
+                <td class="fs-6 " ># {{num |upper()}}</td>
+                <td class="fs-6 " >{{name}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% endif %}
+
+
+          </div>
+        </div>
+      </div>
+
+
+      
+
+
+
+      
+
+
+
+
+
+
+
+      <script>
+        {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+        {% endwith %}
+        document.getElementById('label_date').innerText="{{ date }}";
+
+        function reload(){
+            location.href='/show_ForMonth';
+        };
+        function date2_chk(){
+          var date1=document.getElementById('date1').value;
+          document.getElementById('date2').setAttribute('min',date1);
+        };
+
+
+
+      </script>
+    </body>
+</html>

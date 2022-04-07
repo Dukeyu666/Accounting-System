@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Css import
+        <link rel="icon" href="#"/>-->
+        <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} "> 
+        <meta charset="uft-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Bellevie Hair Salon system</title>
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+            }
+            a,a:visited,a:link{
+                width: 100%;
+                text-decoration: none;
+                color:inherit;
+            }
+            .container-md{
+                margin-top: 100px;
+            }
+            .btn{
+                border-radius: 15px;
+                font-size: 26px;
+                width: 240px;
+            }
+
+
+
+
+        </style>
+    </head>
+    <body>
+        <div class="container-md mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+            <a href="/">Bellevie Hair Salon</a>
+        </div>
+
+        <div class="container-md mt-5">
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/new_sales"><button class="btn btn-outline-secondary">新增業績</button></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/modify_sales"><button class="btn btn-outline-secondary">修改業績</button></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/clients_data"><button class="btn btn-outline-secondary">顧客資料</button></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/show_salesforday"><button class="btn btn-outline-secondary">單日業績</button></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/show_ForMonth"><button class="btn btn-outline-secondary">月總業績</button></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/topup_record" class="text-center"><button type="button" class="btn btn-outline-secondary">儲值紀錄</button></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/staff_index"><button class="btn btn-outline-secondary">員工</button></a>
+                </div>
+            </div>
+            {% if current_user.is_authenticated %}
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/logout"><button class="btn btn-outline-secondary">登出管理者</button></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/setting"><button class="btn btn-outline-secondary">設定</button></a>
+                </div>
+            </div>
+            {% else %}
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/login"><button class="btn btn-outline-secondary">登入</button></a>
+                </div>
+            </div>
+            {% endif %}
+            
+
+        <!--
+        <div class="button_group">
+            <a href="/fill_data"><button  type="button">新增業績</button></a>
+            <button type="button" type="button">修改業績</button>
+            <button type="button" type="button">單日業績</button>
+            <button type="button" type="button">月總業績</button>
+        </div>
+        -->
+
+
+
+
+        <script>
+        {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+        {% endwith %}
+        </script>
+    </body>
+
+</html>

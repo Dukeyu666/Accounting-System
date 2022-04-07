@@ -1,0 +1,24 @@
+
+<!doctype html>
+<html>
+    <style>
+    {% block styles %}
+        hr{
+
+            
+        }
+        h1{
+            text-align: center;
+            font-size: 100px;
+        }
+    {% endblock styles %}
+    </style>
+    <body>
+        {% extends "template_inherit.html" %}
+        {% block content %}
+        <hr>
+        <h1>Page Not Found  -  404</h1>
+        {% endblock content %}
+    </body>
+
+</html>

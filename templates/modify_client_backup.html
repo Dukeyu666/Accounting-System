@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+
+      
+        </style>
+    </head>
+    <body>
+      <div class="container-md mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+      <div class="container-md mt-5 text-center fs-3 text-secondary">
+        修改顧客資料
+      </div>
+      <div class="container-md mt-3">
+        <form action="/modify_client" method="POST">
+        <div class="from-control">
+            <table class="table table-success table-striped w-50 mx-auto">
+                <thead>
+                    <tr class="table-active">
+                        <th scope="col" class="col-sm-4 fs-4">姓名</th>
+                        <th scope="col" class="col-sm-4 fs-4 ">電話</th>
+                        <th scope="col" class="col-sm-4 fs-4 ">生日</th>
+                    </tr>
+                    <tr>
+                        <td><input class="form-control fs-5 text-center" type="text" name="name" placeholder="姓名" required></td>
+                        <td><input class="form-control fs-5 text-center" type="tel" name="phone" minlength="10" maxlength="10" placeholder="電話" required></td>
+                        <td><input class="form-control fs-5" type="date" name="date"></td>
+                    </tr>
+              </thead>
+            </table>
+            <div class="row mt-5">
+                <div class="d-grid gap-2 d-md-block text-center">
+                    <button type="submit" class="btn btn-outline-primary fs-4">送出</button>
+                    <a href="/query_client" class="btn text-primary fs-4">返回</a>
+                </div>
+            </div>
+        </form>
+        </div>
+      </div>
+
+      <script>
+    
+      </script>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+            .container-md{
+                margin-top: 100px;
+            }
+            .btn{
+                
+                font-size: 26px;
+                width: 200px;
+            }
+      
+        </style>
+    </head>
+    <body>
+      <div class="container-md mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+
+      <div class="container-md ">
+        <div class="row mt-5">
+            <div class="d-grid gap-2 mx-auto ">
+                <a href="/edit" class="text-center"><button type="button" class="btn btn-outline-secondary">員工設定</button></a>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="d-grid gap-2 mx-auto ">
+                <a href="/point_assistants" class="text-center"><button type="button" class="btn btn-outline-secondary">助理點數</button></a>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="d-grid gap-2 mx-auto ">
+                <a href="/" class="text-center"><button type="button" class="btn btn-outline-secondary">返回</button></a>
+            </div>
+        </div>
+      
+
+
+
+
+
+
+
+      <script>
+    
+      </script>
+    </body>
+</html>

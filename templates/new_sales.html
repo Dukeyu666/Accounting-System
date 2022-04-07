@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet"> 
+      <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">
+      <title>Bellevie Hair Salon system</title>  
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+             
+            }
+            a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+          
+         
+
+        </style>
+    </head>
+    <body>
+      <div class="container mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+        <a href="/">Bellevie Hair Salon</a>
+      </div>
+
+      <form action="/sales" id="form1" method="POST">
+        <!--<input type="hidden" name="order" value="{{ order }}">-->
+      <div class="container-sm bg-light">
+        
+        <div class="row justify-content-center">
+          <div class="col-sm-3 mt-3 ">
+            <div class="row-5">
+              <label for="">顧客電話</label>
+              <div class="form-floating mt-3 fs-5 ">
+                <input type="tel" class="form-control fs-4 text-center" id="floatingInput" name="phone" placeholder="phone" minlength="10" maxlength="10">
+                <label for="floatingInput">Phone</label>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <label for="">設計師</label>
+              <div>
+                <select class="form-select fs-5 mt-3 " name="designer" style="text-align-last: center ;" required>
+                  <option value="">請選擇</option>
+                  {% for designer in designers %}
+                    <option value="{{designer}}">{{designer}}</option>
+                  {% endfor %}
+                  </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3 mt-3">
+              助理
+              <div class="block_input_score mt-3">
+              {% for assistant in assistants %}  
+                <div class="input-group mb-3 w-75">
+                  <input type="text" class="form-control" id="assistant{{loop.index}}" placeholder="點數" name="{{assistant}}">
+                  <span class="input-group-text" id="basic-addon1">{{assistant}}</span>
+                </div>
+              {% endfor %}
+              </div>
+          
+          </div>
+
+         
+          <div class="col-sm-3 mt-3" >
+              <label for="product">店販商品</label>
+              <select class="form-select mt-3 w-75" style="text-align-last: center;" name='seller' id='seller' >
+                <option value="" >販售人員</option>
+                  <optgroup label="Designer">
+                      {% for designer in designers %}
+                      <option value="{{designer}}">{{designer}}</option>
+                      {% endfor %}
+                      </optgroup>}
+                  <optgroup id='opt_Assistant' label="Assistant">
+                      {% for assistant in assistants %}
+                          <option value="{{assistant}}">{{assistant}}</option>
+                      {% endfor %}
+                  </optgroup>
+              </select>
+
+              <select class="form-select mt-3 w-75" style="text-align-last: center ;" id='product' >
+                <option>請選擇商品</option>
+                <option>洗髮精</option>
+                <option>護髮素</option>
+                <option>造型產品</option>
+                <option>其他產品</option>
+              </select>
+
+              <div class="row justify-content-center">
+                <div class="col-3 gx-0">
+                  <button type="button" class="btn btn-sm btn-outline-primary mt-3 " onclick="add_product()" >新增</button>
+                </div>
+                <div class="col-3 gx-0 ">
+                  <button type="button" class="btn btn-sm btn-outline-primary mt-3" onclick="rm_product();total()" >刪除</button>
+                </div>
+              </div>
+              <div class="input-group mb-3" id='goods'></div>   
+          </div>
+
+        </div>
+        <hr>
+      </div>
+      
+      <div class="container-sm mt-4">
+        <div class="row justify-content-center">
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <span class="input-group-text text-light bg-dark fw-bolder fs-5">剪</span>
+              <input type="text" class="form-control text-center fw-bolder fs-5" id='cut' name='cut' oninput="total()" placeholder="$ 0">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <span class="input-group-text text-light bg-info fw-bolder fs-5">洗</span>
+              <input type="text" class="form-control text-center fw-bolder fs-5" id='shampoo' name='shampoo' oninput="total()" placeholder="$ 0" >
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <span class="input-group-text text-light bg-danger fw-bolder fs-5">染</span>
+              <input type="text" class="form-control text-center fw-bolder fs-5" id='dye' name='dye' oninput="total()" placeholder="$ 0">
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <span class="input-group-text text-dark bg-warning fw-bolder fs-5">燙</span>
+              <input type="text" class="form-control text-center fw-bolder fs-5" id='perm' name='perm' oninput="total()" placeholder="$ 0">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <span class="input-group-text text-dark bg-light fw-bolder fs-5">護</span>
+              <input type="text" class="form-control text-center fw-bolder fs-5" id='treat' name='treat' oninput="total()" placeholder="$ 0">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <span class="input-group-text text-dark bg-light fw-bolder fs-5">頭</span>
+              <input type="text" class="form-control text-center fw-bolder fs-5" id='scalp' name='scalp' oninput="total()" placeholder="$ 0">
+            </div>
+          </div>
+
+          <div class="row justify-content-center mt-2">
+            <div class="col-sm-3 ">
+              <span class="input-group-text text-center fs-4">&ensp;總計 : $&ensp;<label class="text-center" id="sum"></label></span>
+              
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+
+      <div class="container text-center fs-4 fw-bold mt-4">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="payment" id="inlineRadio1" onclick="chk_deposit();" value="FunNow" >
+            <label class="form-check-label" for="inlineRadio1">FunNow</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="payment" id="inlineRadio2" onclick="chk_deposit();" value="deposit">
+            <label class="form-check-label" for="inlineRadio2">儲值金</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="payment" id="inlineRadio3" onclick="chk_deposit();" value="cash" required>
+            <label class="form-check-label" for="inlineRadio3">現金</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="payment" id="inlineRadio4" onclick="chk_deposit();" value="transfer">
+            <label class="form-check-label" for="inlineRadio4">轉帳</label>
+          </div>
+      </div>
+
+      <div class="container text-secondary mt-4 mb-3">
+        <div class="row justify-content-center">
+          <div class="col-6 text-center ">
+              <button type="submit" id="change_btn1" class="btn btn-sm btn-outline-primary fs-5" onclick="popup_confirm()" >送出</button>
+              <button type="button" id="change_btn2" class="btn btn-sm btn-outline-primary fs-5" onclick="reload()" >重置</button>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id='total_all' name='total_all'>
+      <input type="hidden" id='product_total' name='product_total'>
+    </form>
+
+      
+
+
+
+
+      <script>
+
+
+          function popup_confirm(){
+                if (confirm("確認送出?")) {                
+                }else {
+                    reload();
+                }
+          }
+          function chk_deposit(){
+            if(document.getElementById('inlineRadio2').checked){
+              document.getElementById('floatingInput').setAttribute('required','True');
+            }else{
+              document.getElementById('floatingInput').removeAttribute('required')
+            }
+          }
+            
+
+
+           function total() {
+               var cut=parseInt(document.getElementById('cut').value ||0);
+               var shampoo=parseInt(document.getElementById('shampoo').value ||0);
+               var dye=parseInt(document.getElementById('dye').value ||0);
+               var perm=parseInt(document.getElementById('perm').value ||0);
+               var treat=parseInt(document.getElementById('treat').value ||0);
+               var scalp=parseInt(document.getElementById('scalp').value ||0);
+
+              document.getElementById('sum').innerText=cut+shampoo+dye+perm+treat+scalp+product_price();
+              document.getElementById('total_all').value=cut+shampoo+dye+perm+treat+scalp;
+              document.getElementById('product_total').value=product_price()
+            }
+
+            function product_price(){
+                var sum=0;
+                for(var i=1; i<=count;i++){
+                    sum=sum+parseInt(document.getElementById('product-'+i).value ||0);    
+                }
+                return sum;
+            }
+
+
+
+
+            function reload(){
+              location.href='/new_sales'
+            }
+
+            
+            function rm_product(){
+
+                var PD=document.getElementById('PD'+count) ||'';
+                if(PD != ''){
+                    document.getElementById('PD'+count).remove()
+                    document.getElementById('product').selectedIndex=0;
+                    count--;
+                };
+                var PD=document.getElementById('PD'+count) ||'';
+                if(PD ==''){
+                  document.getElementById('seller').removeAttribute('required');
+                }
+            }
+            
+            function add_product(){
+                var selectIndex=document.getElementById('product').selectedIndex;
+                var optIndex=document.getElementById('product').options;
+                if(selectIndex != 0){
+                
+                    count++;
+                    var newDiv=document.createElement('div');
+                        newDiv.setAttribute('class','input-group mt-3')
+                        newDiv.setAttribute('id','PD'+count);
+                    var newSpan=document.createElement('span');
+                        newSpan.setAttribute('class','input-group-text text-light bg-success fw-bolder fs-6')
+                        newSpan.innerText=optIndex[selectIndex].text;
+
+                    var newInputText=document.createElement('input');
+                        newInputText.setAttribute('class','form-control fs-6');
+                        newInputText.setAttribute('type','text');
+                        newInputText.setAttribute('id','product-'+count)
+                        newInputText.setAttribute('name',optIndex[selectIndex].text)
+                        newInputText.setAttribute('placeholder'," $ 0 ");
+                        newInputText.setAttribute('oninput',"total()");
+
+                   document.getElementById('goods').appendChild(newDiv).appendChild(newInputText);     
+                   document.getElementById('goods').appendChild(newDiv).appendChild(newSpan);
+              
+                   document.getElementById('product').selectedIndex=0;
+                }
+                document.getElementById('seller').setAttribute('required','True');
+            }
+            var count=0;
+
+        {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+        {% endwith %}
+      </script>
+    </body>
+</html>

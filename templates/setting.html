@@ -1,0 +1,76 @@
+
+    
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.css') }} ">
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap-grid.min.css') }} ">  
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} "> 
+
+        <style>
+            body{
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+            }
+            a,a:visited,a:link{
+                width: 100%;
+                text-decoration: none;
+                color:inherit;
+            }
+            .container-md{
+                margin-top: 100px;
+            }
+            .btn{
+                
+                font-size: 26px;
+                width: 200px;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <div class="container-md mt-5 mb-5 display-5 text-center text-danger fst-italic text-nowrap" style="font-family: Cinzel,Trebuchet MS;">
+            <a href="/">Bellevie Hair Salon</a>
+        </div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="d-grid gap-2 mx-auto ">
+                    <form class='text-center' action="/reset" method="GET">
+                        <button type="button" class="btn btn-outline-secondary" id='btn1' onclick="popup_confirm()">清除所有業績</button></a>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="text-center mx-auto ">
+                    <button type="button" class="btn btn-outline-secondary" onclick="location.href='/';">返回</button>
+                </div>
+            </div>
+        </div>
+
+    </body>
+    <script>
+        function popup_confirm(){
+            if (confirm("警告 是否要清除所有業績?")) {                
+                document.getElementById('btn1').setAttribute('type','submit');
+            }else {
+                location.href='/setting'
+            }
+        };
+        {% with message = get_flashed_messages() %}
+          {% if message %}
+            var message='{{message}}';
+            message=message.replace('[&#39;','').replace('&#39;]','');
+            alert(message);
+          {% endif %}
+        {% endwith %}
+    </script>
+</html>

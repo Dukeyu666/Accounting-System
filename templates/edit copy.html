@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Css import-->
+        <script src=" {{ url_for('static',filename='js/bootstrap.bundle.min.js') }} " ></script>
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} ">
+        <link rel="stylesheet" href=" {{ url_for('static',filename='css/bootstrap.min.css') }} " >
+        <link rel="icon" href=" {{ url_for('static',filename='img/logo.png') }} " >
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+        <meta charset="uft-8">
+        <title>Bellevie Hair Salon system</title>
+        <link rel="icon" href="#"/>
+        <style>
+            body{  
+                height: 100%;
+                height: 100%;
+                margin: 0;
+                padding:0;
+                background-color:#FFFAF0;
+                font-family:"Trebuchet MS";
+            }
+             a,a:visited,a:link{
+                text-decoration: none;
+                color:inherit;
+            }
+             .head{
+                margin-left: auto;
+                margin-right: auto;
+                color: rgb(236, 82, 113);
+                font-style: italic;
+                font-weight: bolder;
+                font-size: 90px ;
+                font-family:'Cinzel','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, serif;
+                text-align:center;
+                height: auto;
+                width: auto;
+                line-height:300px;
+                /*position:relative; 固定位置 */
+                
+                /*border: 1px solid black;*/
+             }
+            .container_form1,form{
+                border:1px solid red;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: 851.2px;
+                height: 300px;
+             }
+             .container_remove{
+                border:1px solid red;
+                 text-align: center;
+                 font-size: 40px;
+                 line-height: 40px;
+                 width: 50%;
+                 height: 250px;
+                 float: left;
+                 background-color: rgb(245, 245, 245);
+                 border-radius: 30px;
+             }
+
+             .container_add{
+                border:1px solid red;
+                text-align: center;
+                font-size: 40px;
+                line-height: 40px;
+                width: 50%;
+                height: 250px;
+                float: left;
+                background-color: rgba(245, 243, 243, 0.993);
+                border-radius: 30px;
+                
+             }
+             .container_remove div{
+                
+                border:1px solid red;
+                margin: 10px;
+                font-size: 35px;
+                background-color:   rgb(245, 245, 245);
+             }
+             .container_add div{
+                border:1px solid red;
+                margin: 10px;
+                font-size: 35px;
+                background-color: rgba(245, 243, 243, 0.993);
+             }
+             .container_remove label{
+                border:1px solid red;
+                color:rgb(7, 6, 6);
+                background-color: rgb(245, 245, 245);
+            }
+            .container_add label{
+            
+            color:rgb(106, 0, 0);
+            background-color: rgba(245, 243, 243, 0.993);
+            border:1px solid red;
+            }
+            input[type='radio']{
+                height: 0.8em;
+                width: 0.8em;
+                border:1px solid red;
+            }
+            input[type="text"]{
+                outline: none;
+                margin-top: 15px;
+                font-size:40px;
+                width: 230px;
+                height: 60px;
+                border-radius: 20px;
+                text-align: center;
+                font-weight: bold;
+                line-height: 60px;
+                box-shadow: 8px 8px 8px rgb(159, 149, 149),0px 0px 8px  rgb(159, 149, 149);
+                border:1px solid red;
+            }
+            select{
+                outline: none;
+                margin-top: 10px;
+                text-align-last:center;
+                border-radius: 20px;
+                border:1px solid red;
+            }
+            input[type="button"]{
+                font-weight: bold;
+                font-size: 60px;
+                height: 80px;
+                line-height: 80px;
+                width: 200px;
+                border-radius: 20px;
+                color: blanchedalmond;
+                background-color:#444340
+                border:1px solid red;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="head">
+            <a href="/" class='h1_link' >Bellevie Hair Salon</a>
+        </div>
+        <div class="container_form1">
+            <form class="form1" id='form1' action="/employees" method="POST">
+                <div class="container_remove">
+                    <div>
+                        <input type="radio" id='label_rm' name='option' value="remove" onclick="disable_radio()">
+                        <label for="label_rm">移除</label>
+                    </div>
+                    <div>
+                        <label for="Designer">欲移除人員 : </label>
+                        <select id="employees" name="employees" >
+                            <option value="Null">請選擇</option>
+                            <optgroup label="Designer">
+                                {% for designer in designers %}
+                                <option value="{{designer}}">{{designer}}</option>
+                                {% endfor %}
+                                </optgroup>}
+                            <optgroup id='opt_Assistant' label="Assistant">
+                                {% for assistant in assistants %}
+                                    <option value="{{assistant}}">{{assistant}}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="container_add">
+                    <div>
+                        <input type="radio" id='label_add' name='option' value="add" onclick="enable_radio()" >
+                        <label for="label_add">新增</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Designers" name="add" value="Designers" disabled onclick="Design()" >
+                        <label for="Designers"> 設計師&emsp;</label>
+                        <input type="radio" id="Assistants" name="add" value="Assistants" disabled onclick="Assist()">
+                        <label for="Assistants"> 助理&emsp;</label>
+                    </div>
+                    <div>
+                        <input type="text" id='inputname' placeholder="請輸入名稱">
+                    </div>
+                </div>
+                 
+            </form>
+            <input type="button" id="submit" form="form1" onclick="check_value()" value="送出">
+        </div>
+
+
+
+        <script>
+            function popup_confirm(){
+                if (confirm("確認送出?")) {
+                     document.getElementById('submit').setAttribute('type','submit')
+                     document.getElementById('submit').submit();
+                } else {
+                    document.getElementById('form1').reset();
+                }
+            }
+            function enable_radio(){
+                document.getElementById('Designers').removeAttribute('disabled') 
+                document.getElementById('Assistants').removeAttribute('disabled')
+                
+            }
+            function disable_radio(){
+                document.getElementById('Designers').setAttribute('disabled',"") 
+                document.getElementById('Assistants').setAttribute('disabled',"")
+            }
+            function Design() {
+                var Designers=document.getElementById("Designers").getAttribute('id') ||'';
+                    if (Designers != '') {
+                        document.getElementById('inputname').setAttribute('name',Designers)
+                    }    
+            }
+            function Assist(){
+                var Assistants=document.getElementById("Assistants").getAttribute('id') ||'';
+                if(Assistants != ''){
+                    document.getElementById('inputname').setAttribute('name',Assistants)
+                }
+            }
+            function check_value(){
+                var label_rm=document.getElementById('label_rm').checked;
+                var label_add=document.getElementById('label_add').checked;
+                if(label_rm == true){
+                    var select=document.getElementById('employees').value;
+                    if(select == 'Null'){
+                        alert('請選擇欲刪除的人員')
+                        location.reload()
+                    }else{
+                        popup_confirm()
+                    }
+                }else{
+                    /* 只選移除人員 其他都沒選  */
+                    location.reload()
+                }
+                if(label_add == true){
+                    var CHK_Designers=document.getElementById('Designers').checked;
+                    var CHK_Assistants=document.getElementById('Assistants').checked;
+                    if(CHK_Designers == true || CHK_Assistants == true ){
+                        var CHK_Inputname=document.getElementById('inputname').value;
+                        var CHK_Assis_num=document.getElementById('opt_Assistant').getElementsByTagName('option').length;
+                        if ( CHK_Assistants == true && CHK_Assis_num >=4){
+                            alert('助理不得超過四位，請先刪除其中一位，才可新增。')
+                            location.reload()
+                        }else{
+                                if(CHK_Inputname == ''){
+                                    alert('請輸入名稱')
+                                    location.reload()
+                                }else{
+                                    popup_confirm()
+                                }
+                        }
+                        
+  
+                    }else{
+                        alert('請選擇 "設計師" 或 "助理" ')
+                        location.reload()
+                    }
+                }
+            }
+            
+        </script>
+    </body>
+
+</html>
